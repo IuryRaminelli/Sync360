@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteBase /Sync360/
+
+RewriteRule !\.(docx|pdf|js|ico|txt|gif|jpg|jpeg|webp|png|css)$ index.php [QSA,L]
