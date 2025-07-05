@@ -7,10 +7,11 @@
         public function __construct(){
             $this->conexao = Conexao::getConexao();
         }
-        public function insertUser(User $User){
+        public function insertUser(User $User) {
             $pstmt = $this->conexao->prepare("INSERT INTO user 
-            (cpf, nome, email, senha, dataNascimento, tipo, imagem) VALUES 
-            (?,?,?,?,?,?,?)");
+                (cpf, nome, email, senha, dataNascimento, tipo, imagem, biografia, rua, bairro, id_estado, id_cidade) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
             $pstmt->bindValue(1, $User->getCPF());
             $pstmt->bindValue(2, $User->getNome());
             $pstmt->bindValue(3, $User->getEmail());
@@ -18,8 +19,12 @@
             $pstmt->bindValue(5, $User->getDataNascimento());
             $pstmt->bindValue(6, $User->getTipo());
             $pstmt->bindValue(7, $User->getImagem());
-            $pstmt->execute();
-            return $pstmt;
+            $pstmt->bindValue(8, $User->getBiografia());
+            $pstmt->bindValue(9, $User->getRua());
+            $pstmt->bindValue(10, $User->getBairro());
+            $pstmt->bindValue(11, $User->getIdEstado());
+            $pstmt->bindValue(12, $User->getIdCidade());
+            return $pstmt->execute();
         }
         public function selectLoginUser1($email){
             $pstmt = $this->conexao->prepare("SELECT * FROM user WHERE email = :email ");
@@ -35,62 +40,68 @@
             }
             return false;
         }
-
         public function alterarUser(User $User) {
             try {
-                // Preparar a consulta para atualizar os dados do usuário
+                // Monta a base da query
                 $query = "UPDATE user SET 
                             cpf = :cpf, 
                             nome = :nome, 
                             email = :email, 
                             dataNascimento = :dataNascimento, 
                             tipo = :tipo, 
-                            imagem = :imagem";
-        
-                // Se a senha for fornecida, adiciona a coluna senha à consulta
+                            imagem = :imagem,
+                            biografia = :biografia,
+                            rua = :rua,
+                            bairro = :bairro,
+                            id_estado = :id_estado,
+                            id_cidade = :id_cidade";
+
+                // Se a senha for fornecida, adiciona à query
                 if (!empty($User->getSenha())) {
                     $query .= ", senha = :senha";
                 }
-        
-                // Adiciona a condição WHERE para o id
+
                 $query .= " WHERE id = :id";
-        
-                // Preparar a consulta
+
+                // Prepara a query
                 $pstmt = $this->conexao->prepare($query);
-        
-                // Vincula os parâmetros da consulta
+
+                // Bind dos parâmetros obrigatórios
                 $pstmt->bindValue(':cpf', $User->getCPF());
                 $pstmt->bindValue(':nome', $User->getNome());
                 $pstmt->bindValue(':email', $User->getEmail());
                 $pstmt->bindValue(':dataNascimento', $User->getDataNascimento());
                 $pstmt->bindValue(':tipo', $User->getTipo());
                 $pstmt->bindValue(':imagem', $User->getImagem());
-        
-                // Se a senha não estiver vazia, processa a senha e faz o bind
+                $pstmt->bindValue(':biografia', $User->getBiografia());
+                $pstmt->bindValue(':rua', $User->getRua());
+                $pstmt->bindValue(':bairro', $User->getBairro());
+                $pstmt->bindValue(':id_estado', $User->getIdEstado());
+                $pstmt->bindValue(':id_cidade', $User->getIdCidade());
+
+                // Se houver nova senha
                 if (!empty($User->getSenha())) {
                     $pstmt->bindValue(':senha', password_hash($User->getSenha(), PASSWORD_DEFAULT));
                 }
-        
-                // Agora, vincula o id do usuário
+
+                // ID do usuário
                 $pstmt->bindValue(':id', $User->getIdUser());
-        
-                // Executa a consulta
+
+                // Executa
                 $pstmt->execute();
-        
-                // Retorna verdadeiro se a atualização afetou pelo menos uma linha
+
+                // Verifica se algo foi alterado
                 return $pstmt->rowCount() > 0;
             } catch (PDOException $e) {
-                // Em caso de erro, registra o erro e retorna falso
                 error_log('Erro ao alterar usuário: ' . $e->getMessage());
                 return false;
             }
         }
-        
               
         public function deleteUser($id) {
             try {
                 $stmt = $this->conexao->prepare("DELETE FROM user WHERE id = :id");
-                $stmt->bindParam(':cpf', $id, PDO::PARAM_INT);
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     
                 $stmt->execute();
     
@@ -119,6 +130,36 @@
             $lista = $pstmt->fetchAll(PDO::FETCH_CLASS, User::class);
             return $lista;
         }
+
+
+
+
+        public function estados() {
+            $pstmt = $this->conexao->prepare('SELECT Uf, Nome FROM estado');
+            $pstmt->execute();
+            return $pstmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function cidades($Uf) {
+            $pstmt = $this->conexao->prepare('SELECT * FROM cidade WHERE estado_Uf = :uf ORDER BY Nome');
+            $pstmt->bindParam(':uf', $Uf, PDO::PARAM_STR);
+            $pstmt->execute();
+            return $pstmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function getNomeEstado($uf) {
+            $stmt = $this->conexao->prepare("SELECT Nome FROM estado WHERE Uf = :uf");
+            $stmt->bindValue(':uf', $uf);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+
+        public function getNomeCidade($idCidade) {
+            $stmt = $this->conexao->prepare("SELECT Nome FROM cidade WHERE Id = :id");
+            $stmt->bindValue(':id', $idCidade, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+
 
     }
 

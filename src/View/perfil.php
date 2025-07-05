@@ -17,6 +17,8 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] != "admin" || $_S
 
     if($linha != null){
         $user = new User($linha[0]);
+        $nomeEstado = $ConUser->getNomeEstado($user->getIdEstado());
+        $nomeCidade = $ConUser->getNomeCidade($user->getIdCidade());
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +62,13 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] != "admin" || $_S
                 <input type="text" class="form-control" name="cpf" value="<?php echo $user->getCPF(); ?>" autofocus="true" disabled=""/><br>
                 <label for="nome">Nome</label>
                 <input type="text" class="form-control" name="nome" value="<?php echo $user->getNome(); ?>" autofocus="true" disabled=""/><br>
+                
+                <label for="biografia">Biografia</label>
+                <textarea class="form-control" name="biografia" rows="5" autofocus="true" disabled><?= htmlspecialchars($user->getBiografia()); ?></textarea><br>
+
+                <label for="email">E-mail</label>
+                <input type="email" class="form-control" name="email" value="<?php echo $user->getEmail(); ?>" disabled=""/><br>
+
                 <label for="dataNascimento">Data de Nascimento</label>
                 <?php
                     $dataOriginal = $user->getDataNascimento();
@@ -69,17 +78,39 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] != "admin" || $_S
                 <input type="text" class="form-control" name="dataNascimento" value="<?= $dataFormatada;?>" disabled=""/><br>
 
                 <!-- Idade não é salva no banco de dados, mas é contada automáticamente através da data de nascimento (que é salva no banco de dados) -->
-                <label for="email">Idade</label>
+                <label for="idade">Idade</label>
                 <?php
                     $dataNascimento = new DateTime($dataOriginal);
                     $hoje = new DateTime();
                     $idade = $dataNascimento->diff($hoje)->y;
                 ?>
-                <input type="email" class="form-control" name="email" value="<?= $idade;?>" disabled=""/><br>
-                <label for="email">E-mail</label>
-                <input type="email" class="form-control" name="email" value="<?php echo $user->getEmail(); ?>" disabled=""/><br>
+                <input type="idade" class="form-control" name="email" value="<?= $idade;?>" disabled=""/><br>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="id_estado">Estado</label>
+                        <input type="text" class="form-control" name="id_estado" value="<?= $nomeEstado; ?>" disabled/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="id_cidade">Cidade</label>
+                        <input type="text" class="form-control" name="id_cidade" value="<?= $nomeCidade; ?>" disabled/>
+                    </div>
+                </div>
+                <br>
+
+                <label for="rua">Rua</label>
+                <input type="text" class="form-control" name="rua" value="<?php echo $user->getRua(); ?>" disabled=""/><br>
+
+                <label for="bairro">Bairro</label>
+                <input type="text" class="form-control" name="bairro" value="<?php echo $user->getBairro(); ?>" disabled=""/><br>
+
                 <label for="senha">Senha</label>
                 <input type="password" class="form-control" name="senha" value="********" disabled=""/><br>
+                
+                <label for="tipo">Tipo</label>
+                <input type="text" class="form-control" name="tipo" value="<?php echo $user->getTipo(); ?>" disabled/><br>
+
                 <label for="imagem">Foto de Perfil</label>
                 <br>
                 <img src="<?= $user->getImagem() ?>" alt="Foto" width="150" height="150" class="rounded-circle">
