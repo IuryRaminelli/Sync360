@@ -5,9 +5,9 @@
     Rotas::add('/Home', '/View/home.php');
 
     /* CONTROLE */
-    Rotas::add('/CadastroUser', 'View/INSERTUser.php');
-    Rotas::add('/AlterarUser', 'View/UPDATEUser.php');
-    Rotas::add('/VisualizarUser', 'View/SELECTUser.php');
+    Rotas::add('/CadastrarUser', 'View/CadastrarUser.php');
+    Rotas::add('/AlterarPerfil', 'View/AlterarPerfil.php');
+    Rotas::add('/VisualizarUser', 'View/VisualizarUser.php');
 
     /* PERFIL */
     Rotas::add('/Login', 'View/login.php');

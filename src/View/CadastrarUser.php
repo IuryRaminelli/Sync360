@@ -78,6 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isse
     }
     exit;
 }
+
+if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
 ?>
 
 <!DOCTYPE html>
@@ -113,20 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isse
 <div class="container">
     <div class="container2">
         <br><br>
-        <div align="center">
-            <h1 align="center" class="display-4">Visualizar Usuários</h1>
-            <?php
-            echo '
-                <form action="' . HOME . 'VisualizarUser' . '" method="POST" style="display:inline;">
-                    <button type="submit" class="btn" name="acao">
-                        <img src="src/View/img/config.png" width="28" height="28" alt="">
-                    </button>
-                </form>';
-            ?>
-        </div>
 
         <form align="center" action="<?= HOME ?>CadastroUser" method="POST" enctype="multipart/form-data">
-                 <br><br>
                  <h1 align="center" class="display-4">Cadastrar Usuários</h1><br>
                 <label for="cpf">CPF</label>
                 <input type="text" class="form-control" name="cpf" placeholder="Digite seu CPF" autofocus="true" /><br>
@@ -206,3 +196,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isse
 
 </body>
 </html>
+<?php
+} else {
+    echo "<h1>404 Não possui acesso.</h1>";
+}
+?>

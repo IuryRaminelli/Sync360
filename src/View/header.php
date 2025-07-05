@@ -137,11 +137,12 @@ $is_active = in_array($current_page, ['Produtos', 'Detalhes', 'ListaProdutos']);
             ?>
               <li class="nav-item"><a class="nav-link <?= $current_page == 'Home' ? 'active' : '' ?>" href="<?=HOME?>Home">Home</a></li>
               <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle <?= in_array($current_page, ['CadastroUser', 'VisualizarUser']) ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle <?= in_array($current_page, ['CadastrarUser', 'VisualizarUser']) ? 'active' : '' ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Controle
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="<?= HOME ?>CadastroUser">Usuário</a></li>
+                <li><a class="dropdown-item" href="<?= HOME ?>CadastrarUser">Cadastrar Usuário</a></li>
+                <li><a class="dropdown-item" href="<?= HOME ?>VisualizarUser">Visualizar Usuário</a></li>
               </ul>
             </li>
             <?php endif; ?>

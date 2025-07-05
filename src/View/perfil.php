@@ -9,7 +9,7 @@ $linha = $ConUser->selectLoginUser1($_SESSION["USER_LOGIN2"]);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['acao'] === 'Alterar') {
     $idUser = $_POST['id_user'];
     $_SESSION['id_user'] = $idUser;
-    header("Location: " . HOME . "AlterarUser");
+    header("Location: " . HOME . "AlterarPerfil");
     exit();
 }
 
