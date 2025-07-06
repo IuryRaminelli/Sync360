@@ -88,6 +88,13 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
                                 <img src="src/View/img/deletar2.png" width="20" height="20" alt="Excluir">
                             </button>
                         </form>
+                        <br>
+                        <form action="<?= HOME ?>AlterarUser" method="GET">
+                            <input type="hidden" name="id" value="<?= $user->getIdUser(); ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <img src="src/View/img/editar2.png" width="20" height="20" alt="Alterar">
+                            </button>
+                        </form>
                     </td>
                 <?php endif; ?>
             </tr>

@@ -17,7 +17,7 @@ if (isset($_POST['cadastro'])) {
 
         if (in_array($fileType, ['jpg', 'jpeg', 'png'])) {
             if (move_uploaded_file($_FILES['imagem']['tmp_name'], $target_file)) {
-                $tipo = isset($_POST['tipo']) && !empty($_POST['tipo']) ? $_POST['tipo'] : 'normal';
+                $tipo = 'normal';
 
                 $arrayUser = array(
                     "cpf" => $_POST['cpf'],
@@ -38,15 +38,15 @@ if (isset($_POST['cadastro'])) {
                 $User = new User($arrayUser);
 
                 if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                    echo "<script>alert('E-mail inválido.'); window.location.href = '" . HOME . "CadastroUser';</script>";
+                    echo "<script>alert('E-mail inválido.'); window.location.href = '" . HOME . "CadastrarUser';</script>";
                     exit;
                 }
 
 
                 if ($ConUser->insertUser($User)) {
-                    echo "<script>alert('Cadastrado com sucesso!'); window.location.href = '" . HOME . "CadastroUser';</script>";
+                    echo "<script>alert('Cadastrado com sucesso!'); window.location.href = '" . HOME . "Login';</script>";
                 } else {
-                    echo "<script>alert('Erro ao se cadastrar.'); window.location.href = '" . HOME . "CadastroUser';</script>";
+                    echo "<script>alert('Erro ao se cadastrar.'); window.location.href = '" . HOME . "CadastrarUser';</script>";
                 }
             } else {
                 echo "<script>alert('Erro ao enviar a imagem.');</script>";
@@ -78,8 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isse
     }
     exit;
 }
-
-if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +114,7 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
     <div class="container2">
         <br><br>
 
-        <form align="center" action="<?= HOME ?>CadastroUser" method="POST" enctype="multipart/form-data">
+        <form align="center" action="<?= HOME ?>CadastrarUser" method="POST" enctype="multipart/form-data">
                  <h1 align="center" class="display-4">Cadastrar Usuários</h1><br>
                 <label for="cpf">CPF</label>
                 <input type="text" class="form-control" name="cpf" placeholder="Digite seu CPF" autofocus="true" /><br>
@@ -157,13 +155,6 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
                 <label for="bairro">Bairro</label>
                 <input type="text" class="form-control" name="bairro" placeholder="Digite seu bairro"/><br>
 
-                <label for="tipo">Tipo</label>
-                <select class="form-control" name="tipo">
-                    <option value="membro">Selecione um tipo</option>
-                    <option value="normal">Normal</option>
-                    <option value="admin">Administrador</option>
-                </select><br>
-
                 <label for="senha">Senha</label>
                 <input type="password" class="form-control" name="senha" placeholder="Digite sua senha" /><br>
                 <label for="imagem">Foto de Perfil</label>
@@ -196,8 +187,3 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
 
 </body>
 </html>
-<?php
-} else {
-    echo "<h1>404 Não possui acesso.</h1>";
-}
-?>

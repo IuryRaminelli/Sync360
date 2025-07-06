@@ -107,9 +107,6 @@ if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] != "admin" || $_S
 
                 <label for="senha">Senha</label>
                 <input type="password" class="form-control" name="senha" value="********" disabled=""/><br>
-                
-                <label for="tipo">Tipo</label>
-                <input type="text" class="form-control" name="tipo" value="<?php echo $user->getTipo(); ?>" disabled/><br>
 
                 <label for="imagem">Foto de Perfil</label>
                 <br>

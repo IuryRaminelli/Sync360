@@ -26,7 +26,7 @@ if ($linha != null) {
         $biografia = $_POST['biografia'];
         $id_estado = $_POST['id_estado'];
         $id_cidade = $_POST['id_cidade'];
-        $tipo = $_POST['tipo'];
+        $tipo = $_POST['tipo'] ?? $user->getTipo();
 
         // Setar os dados no objeto
         $User->setIdUser($idUser);
@@ -178,9 +178,6 @@ if ($linha != null) {
 
                 <label for="senha">Senha</label>
                 <input type="password" class="form-control" name="senha" placeholder="Deixe em branco para não alterar"/><br>
-
-                <label for="tipo">Tipo</label>
-                <input type="text" class="form-control" name="tipo" value="<?php echo $user->getTipo(); ?>" readonly=""/><br>
 
                 <label for="imagem">Foto de Perfil</label><br>
                 <?php if (!empty($user->getImagem())): ?>

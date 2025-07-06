@@ -13,23 +13,10 @@ class Rotas{
 	public static function add($rota, $destino){
 		self::$rotas[''.$rota.'(/?)'] = $destino;
 	}
-			
-	public static function addGetInt($rota, $destino, $variavel){
-		self::$rotas[''.$rota.'/(?P<'.$variavel.'>\d+)'] = $destino;
-	}
 	
 	public static function addGetId($rota, $destino){
 		self::$rotas['^'.$rota.'\?id=(?P<id>\d+)$'] = $destino;
 	}
-
-	public static function addGetPag($rota, $destino){
-		self::$rotas['^'.$rota.'\?pagina=(?P<pagina>\d+)$'] = $destino;
-	}
-	
-	public static function addPost($rota, $destino){
-		self::$rotas['^'.$rota.'$'] = $destino;
-	}
-	
 	public static function erro($destino){
 		self::$erro = $destino;
 	}

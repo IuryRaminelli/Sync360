@@ -9,13 +9,8 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_SESSION["USER_LOGIN_ID"])) {
   $user_id = $_SESSION["USER_LOGIN_ID"];
   $ConUser = new ConUser();
-  $user = $ConUser->selectUserById($user_id);
+  $userLogado = $ConUser->selectUserById($user_id);
 }
-?>
-
-<?php
-$current_page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-$is_active = in_array($current_page, ['Produtos', 'Detalhes', 'ListaProdutos']);
 ?>
 
 <!DOCTYPE html>
@@ -141,8 +136,7 @@ $is_active = in_array($current_page, ['Produtos', 'Detalhes', 'ListaProdutos']);
                 Controle
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="<?= HOME ?>CadastrarUser">Cadastrar Usuário</a></li>
-                <li><a class="dropdown-item" href="<?= HOME ?>VisualizarUser">Visualizar Usuário</a></li>
+                <li><a class="dropdown-item" href="<?= HOME ?>VisualizarUser">Usuários</a></li>
               </ul>
             </li>
             <?php endif; ?>
@@ -163,13 +157,14 @@ $is_active = in_array($current_page, ['Produtos', 'Detalhes', 'ListaProdutos']);
                 </a>
                 <ul class="dropdown-menu text-small">
                   <li><a class="dropdown-item" href="<?=HOME?>Login">Entrar</a></li>
+                  <li><a class="dropdown-item" href="<?=HOME?>CadastrarUser">Cadastre-se</a></li>
                 </ul>
               </div>
             <?php else : ?>
               <div class="dropdown text">
                 <?php if (isset($_SESSION["USER_LOGIN"])) : ?>
                   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?= $user->getImagem() ?>" alt="Foto" width="32" height="32" class="rounded-circle">
+                    <img src="<?= $userLogado->getImagem() ?>" alt="Foto" width="32" height="32" class="rounded-circle">
                   </a>
                 <?php endif; ?>
                 <ul class="dropdown-menu text-small">
