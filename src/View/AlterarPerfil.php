@@ -14,6 +14,17 @@ if ($linha != null) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['acao'] === 'Alterar') {
         $User = new User();
 
+        if (empty($_POST['cpf']) || empty($_POST['nome']) || empty($_POST['dataNascimento']) || empty($_POST['email']) ||
+        empty($_POST['biografia']) || empty($_POST['rua']) || empty($_POST['bairro']) || empty($_POST['id_estado']) || empty($_POST['id_cidade'])) {
+            echo "<script>alert('Todos os campos são obrigatórios.'); window.location.href = '" . HOME . "AlterarPerfil';</script>";
+            exit;
+        }
+
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            echo "<script>alert('E-mail inválido.'); window.location.href = '" . HOME . "AlterarPerfil';</script>";
+            exit;
+        }
+
         $idUser = $_POST['id_user'];
         $cpf = $_POST['cpf'];
         $nome = $_POST['nome'];

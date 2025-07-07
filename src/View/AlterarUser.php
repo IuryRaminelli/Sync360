@@ -12,12 +12,21 @@ if (isset($_GET['id'])) {
     exit;
 }
 
-// Pega nome do estado e cidade
 $nomeEstado = $ConUser->getNomeEstado($user->getIdEstado());
 $nomeCidade = $ConUser->getNomeCidade($user->getIdCidade());
 
-// Atualiza os dados se formulário enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['acao'] === 'Alterar') {
+    if (empty($_POST['cpf']) || empty($_POST['nome']) || empty($_POST['dataNascimento']) || empty($_POST['email']) ||
+    empty($_POST['biografia']) || empty($_POST['rua']) || empty($_POST['bairro']) || empty($_POST['id_estado']) || empty($_POST['id_cidade'])) {
+        echo "<script>alert('Todos os campos são obrigatórios.'); window.location.href = '" . HOME . "VisualizarUser';</script>";
+        exit;
+    }
+
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        echo "<script>alert('E-mail inválido.'); window.location.href = '" . HOME . "VisualizarUser';</script>";
+        exit;
+    }
+
     $User = new User();
 
     $User->setIdUser($_POST['id_user']);
@@ -33,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     $User->setIdCidade($_POST['id_cidade']);
     $User->setTipo($_POST['tipo']);
 
-    // Imagem
     if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0) {
         $imagem = $_FILES['imagem'];
         $target_dir = "src/View/img/";
@@ -55,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
         $User->setImagem($user->getImagem());
     }
 
-    // Salvar alterações
     if ($ConUser->alterarUser($User)) {
         echo "<script>alert('Alterado com sucesso!'); window.location.href = '" . HOME . "VisualizarUser';</script>";
         exit();
@@ -64,10 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao']) && $_POST['ac
     }
 }
 
-// Carrega estados para o select
 $resultado_estados = $ConUser->estados();
 
-// AJAX para cidades
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isset($_POST['cadastro'])) {
     $estadoSelecionado = $_POST['id_estado'];
     $resultado_cidades = $ConUser->cidades($estadoSelecionado);
@@ -81,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isse
     }
     exit;
 }
+
+if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] == "admin")) {
 ?>
 
 <!DOCTYPE html>
@@ -225,3 +232,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_estado']) && !isse
 
 </body>
 </html>
+
+<?php
+} else {
+    echo "<h1>404 Não possui acesso.</h1>";
+}
+?>

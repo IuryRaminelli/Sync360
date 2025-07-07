@@ -11,6 +11,8 @@ if (isset($_SESSION["USER_LOGIN_ID"])) {
   $ConUser = new ConUser();
   $userLogado = $ConUser->selectUserById($user_id);
 }
+
+$current_page = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +49,8 @@ if (isset($_SESSION["USER_LOGIN_ID"])) {
 .top-header img {
   height: 50px;
 }
+
+/*  */
 
 .header-spacer {
   height: 65px;
@@ -93,12 +97,6 @@ if (isset($_SESSION["USER_LOGIN_ID"])) {
   transform: scale(1.05);
   background-color: #1f2937;
 }
-
-
-/* .separador { */
-  /* height: 2px; /* Ajuste a altura conforme necessário */
-  /*background-color: #000; Cor da linha de separação */
-/* } */
 
 </style>
 </head>
