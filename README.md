@@ -12,7 +12,7 @@ Este projeto é um sistema de gerenciamento de usuários com interface para exib
 - Listagem de todos os usuários cadastrados;
 - Controle de acesso (usuário normal e admin);
 - Mensagens de sucesso e erro após ações (cadastro, exclusão, edição);
-- Estilização com Bootstrap (responsivo);
+- Estilização com Bootstrap (responsivo).
 
 ## 📌 Recursos Técnicos Utilizados
 
@@ -21,7 +21,7 @@ Este projeto é um sistema de gerenciamento de usuários com interface para exib
 - Uso de `GET` para redirecionamentos e passagem de parâmetros na página de alterar User;
 - Validação de campos (ex: nome, e-mail, CPF, imagem);
 - Upload de imagem com verificação de tipo e salvamento seguro;
-- Redirecionamento e proteção de páginas com base no tipo de usuário;
+- Redirecionamento e proteção de páginas com base no tipo de usuário.
 
 ## 🛠️ Tecnologias
 
@@ -29,30 +29,30 @@ Este projeto é um sistema de gerenciamento de usuários com interface para exib
 - MySQL;
 - HTML / CSS;
 - Bootstrap;
-- Estrutura modular (MVC simplificado);
+- Estrutura modular (MVC simplificado).
 
 ## 🗂️ Estrutura de diretórios (resumida)
 
-src/
-├── Conexao/
-│ └── Conexao.php
-│ └── ...
-├── Controller/
-│ └── ConUser.php
-├── Model/
-│ └── User.php
-├── View/
-│ └── imgperfil/ (imagens de perfil)
-│ └── img/ (imagens icones)
-│ └── header.php
-│ └── index.php (home)
-│ └── login.php
-│ └── sair.php
-│ └── perfil.php
-│ └── AlterarPerfil.php (específico)
-│ └── VisualizarUser.php
-│ └── AlterarUser.php (todos)
-│ └── CadastrarUser.php
+- src/
+- ├── Conexao/
+- │ └── Conexao.php
+- │ └── ...
+- ├── Controller/
+- │ └── ConUser.php
+- ├── Model/
+- │ └── User.php
+- ├── View/
+- │ └── imgperfil/ (imagens de perfil)
+- │ └── img/ (imagens icones)
+- │ └── header.php
+- │ └── index.php (home)
+- │ └── login.php
+- │ └── sair.php
+- │ └── perfil.php
+- │ └── AlterarPerfil.php (específico)
+- │ └── VisualizarUser.php
+- │ └── AlterarUser.php (todos)
+- │ └── CadastrarUser.php
 
 ## 🧪 Como rodar o projeto
 
@@ -83,5 +83,11 @@ https://iuryraminelli.com/Sync360/Home
 
 ## 📷 Imagens e uploads
 
-- As imagens de perfil são armazenadas em src/View/imgperfil/
-- Upload seguro com validação básica
+- As imagens de perfil são armazenadas em src/View/imgperfil/;
+- Upload seguro com validação básica.
+
+## Banco de Dados
+- Idade não é salva no banco de dados, apenas a Data de Nascimento e depois calculada a idade;
+- Estados e Cidades estão salvas e são uma tabela;
+- Todos os estados estão no banco de dados;
+- Apenas as cidades do Rio Grande do Sul estão no banco de dados (são muitas cidades, pensei que pesaria muito colocando todas as cidades do Brasil).
