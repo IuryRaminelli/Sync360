@@ -96,6 +96,8 @@ if ($linha != null) {
         }
         exit;
     }
+    
+if (isset($_SESSION["USER_LOGIN"]) && ($_SESSION["USER_LOGIN"] != "admin" || $_SESSION["USER_LOGIN"] == "admin")) {
 ?>
 
 <!DOCTYPE html>
@@ -244,5 +246,10 @@ if ($linha != null) {
 </html>
 
 <?php
+}
+?>
+<?php
+} else {
+    echo "<h1>404 Não possui acesso.</h1>";
 }
 ?>
